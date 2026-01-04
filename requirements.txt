@@ -3,3 +3,9 @@ matplotlib
 pandas
 numpy
 scipy
+yfinance
+os 
+json 
+pathlib
+shutil
+seaborn
