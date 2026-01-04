@@ -17,36 +17,6 @@ results_file = os.path.join(Saved_Results_Path, "Heston_Results.txt")
 results_file2 = os.path.join(Saved_Results_Path, "Heston_Results_data_for_web.txt")
 results_file3 = os.path.join(Saved_Results_Path, "Heston_Results_dict_for_web.json")
 
-def PnL(symbol:str, horizon:float, ref_data_period:str, num_paths, start_at_theta:bool, plot:bool=True):
-    print("Generating Heston Analysis...")
-    tList, VListT, SListT = Heston_Engine.heston_for_stock(symbol, horizon, ref_data_period, num_paths, start_at_theta, True, num_paths/100)
-    plt.cla()
-
-    print("Generating PnL report...")
-    S_final = SListT[-1]
-    S_init = SListT[0]
-
-    profit = S_final/S_init-1  #profit percent
-    plt.hist(profit, bins = 21, alpha = 0.8)
-    plt.title(f"Relative Returns on {symbol} over a horizon of {horizon} trading years")
-    plt.xlabel("Relative Returns (S/S_0)")
-    plt.ylabel("Number of Paths (1)")
-    
-    mean_prof = np.mean(profit)
-    med_prof = np.median(profit)
-    stdev  = np.std(profit)
-    plt.axvline(mean_prof, color='r', label='mean')
-    plt.axvline(med_prof, color='b', label='mean')
-
-    plt.axvline(mean_prof - stdev, color='k', linestyle='--')
-    plt.axvline(mean_prof + stdev, color='k', linestyle='--')
-    plt.axvline(mean_prof - 2*stdev, color='k', linestyle='--')
-    plt.axvline(mean_prof + 2*stdev, color='k', linestyle='--')
-
-    plt.savefig(f"{Saved_Results_Path}/PnL_{symbol}.png")
-    print(f"PnL Report successfully generated for {symbol}.\nMean rel. returns = {mean_prof}, Median rel. returns = {med_prof}, std. dev of rel. returns = {stdev}")
-
-    return f"PnL Report successfully generated for {symbol}.\nMean rel. returns = {mean_prof}, Median rel. returns = {med_prof}, std. dev of rel. returns = {stdev}"
 
 def PnL_from_list(symbol:str, S0, SList, VList, horizon:float, ref_data_period:str, num_paths, start_at_theta:bool, plot:bool=True):
     print("Generating Heston Analysis...")
